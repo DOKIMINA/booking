@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>BOOKING</h1>
+    <h3>Avaible</h3>
+
+    {% for apart in aparts  %}
+       <div class="card" style="width: 18rem;">
+        <img src="{{ apart.image.url}}" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title"> {{ apart.name }}</h5>
+            <p class="card-text"> {{ apart.price }}$ per night</p>
+            <a href="{% url 'apart_page' apart.id %}" class="btn btn-primary">Book Now</a>
+        </div>
+        </div>
+        
+        
+        {% endfor %}
+
+{% endblock  %}
