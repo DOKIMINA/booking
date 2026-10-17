@@ -1,20 +1,53 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>BOOKING</h1>
-    <h3>Avaible</h3>
+<div class="container my-5">
+    <!-- Заголовок та пошук -->
+    <div class="row mb-4 align-items-center">
+        <div class="col-md-6">
+            <h1 class="fw-bold">BOOKING</h1>
+            <p class="text-muted">Знайдіть ідеальне місце для вашого відпочинку</p>
+        </div>
+        <div class="col-md-6">
+            <!-- Приклад форми пошуку/фільтрації (можна підключити до Django Filter чи власної логіки) -->
+            <form method="GET" class="d-flex gap-2">
+                <input type="text" name="q" class="form-control" placeholder="Пошук за назвою..." value="{{ request.GET.q }}">
+                <button type="submit" class="btn btn-outline-primary">Пошук</button>
+            </form>
+        </div>
+    </div>
 
-    {% for apart in aparts  %}
-       <div class="card" style="width: 18rem;">
-        <img src="{{ apart.image.url}}" class="card-img-top" alt="...">
-        <div class="card-body">
-            <h5 class="card-title"> {{ apart.name }}</h5>
-            <p class="card-text"> {{ apart.price }}$ per night</p>
-            <a href="{% url 'apart_page' apart.id %}" class="btn btn-primary">Book Now</a>
-        </div>
-        </div>
-        
-        
+    <h3 class="mb-4">Available Apartments</h3>
+
+    <!-- Сітка карток (Bootstrap Grid) -->
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for apart in aparts %}
+            <div class="col">
+                <div class="card h-100 shadow-sm border-0">
+                    <!-- Перевірка чи завантажено зображення, щоб уникнути помилки -->
+                    {% if apart.image %}
+                        <img src="{{ apart.image.url }}" class="card-img-top" alt="{{ apart.name }}" style="height: 200px; object-fit: cover;">
+                    {% else %}
+                        <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="No image" style="height: 200px; object-fit: cover;">
+                    {% endif %}
+                    
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title fw-bold">{{ apart.name }}</h5>
+                        <p class="card-text text-success fw-semibold fs-5 mb-4">{{ apart.price }}$ <span class="text-muted fs-6 fw-normal">per night</span></p>
+                        
+                        <div class="mt-auto">
+                            <a href="{% url 'apart_page' apart.id %}" class="btn btn-primary w-100">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12">
+                <div class="alert alert-info text-center py-4" role="alert">
+                    Наразі немає доступних апартаментів. Спробуйте змінити параметри пошуку пізніше.
+                </div>
+            </div>
         {% endfor %}
-
-{% endblock  %}
+    </div>
+</div>
+{% endblock %}
