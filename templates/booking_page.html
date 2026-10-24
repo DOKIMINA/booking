@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block title %}Бронювання: {{ apart.name }}{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <!-- Кнопка "Назад" -->
+    <div class="mb-3">
+        <a href="{% url 'home' %}" class="text-decoration-none text-muted">
+            &larr; Назад до списку
+        </a>
+    </div>
+
+    <div class="row g-4">
+        <!-- Ліва колонка: Фото та опис -->
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm overflow-hidden mb-4">
+                {% if apart.image %}
+                    <img src="{{ apart.image.url }}" class="card-img-top" alt="{{ apart.name }}" style="height: 400px; object-fit: cover;">
+                {% else %}
+                    <img src="https://via.placeholder.com/800x400" class="card-img-top" alt="No image" style="height: 400px; object-fit: cover;">
+                {% endif %}
+            </div>
+
+            <div class="bg-white p-4 rounded-4 shadow-sm">
+                <h1 class="fw-bold mb-3">{{ apart.name }}</h1>
+                <p class="text-success fs-4 fw-semibold mb-3">{{ apart.price }}$ <span class="text-muted fs-6 fw-normal">за ніч</span></p>
+                
+                <hr class="my-4 text-muted opacity-25">
+
+                <h4 class="fw-bold mb-3">Опис апартаментів</h4>
+                <p class="text-secondary lh-lg">
+                    {{ apart.description|default:"Затишні апартаменти з усіма зручностями для вашого комфортного відпочинку. Ідеально підходить як для подорожей, так і для ділових поїздок." }}
+                </p>
+            </div>
+        </div>
+
+        <!-- Права колонка: Форма бронювання -->
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm p-4 rounded-4 sticky-top" style="top: 20px;">
+                <h3 class="fw-bold mb-3">Бронювання</h3>
+                
+                <!-- Якщо ви передаєте форму з Django (наприклад, BookingForm) -->
+                <form method="POST">
+                    {% csrf_token %}
+                    
+                    <!-- Рендеринг форми Django через Bootstrap (якщо є form) -->
+                    {% if form %}
+                        {{ form.as_p }}
+                    {% else %}
+                        <!-- Стандартні поля, якщо форма створюється прямо у шаблоні -->
+                        <div class="mb-3">
+                            <label for="check_in" class="form-label fw-medium">Дата заїзду</label>
+                            <input type="date" class="form-control" id="check_in" name="check_in" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="check_out" class="form-label fw-medium">Дата виїзду</label>
+                            <input type="date" class="form-control" id="check_out" name="check_out" required>
+                        </div>
+                    {% endif %}
+
+                    <div class="d-grid mt-4">
+                        <button type="submit" class="btn btn-primary btn-lg">Забронювати</button>
+                    </div>
+                </form>
+
+                <div class="text-center mt-3">
+                    <small class="text-muted">Ви ще не будете сплачувати кошти одразу</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

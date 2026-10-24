@@ -22,6 +22,51 @@
           <a class="nav-link disabled" aria-disabled="true">Disabled</a>
         </li>
       </ul>
+    </div><nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+    <div class="container">
+        <!-- Назва сайту / Логотип -->
+        <a class="navbar-brand fw-bold" href="{% url 'home' %}">🏨 BookingApp</a>
+
+        <!-- Кнопка мобільного меню -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Елементи навігації -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <!-- Ліва частина меню -->
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'home' %}">Головна</a>
+                </li>
+            </ul>
+
+            <!-- Права частина меню (Авторизація) -->
+            <ul class="navbar-nav ms-auto align-items-center">
+                {% if request.user.is_authenticated %}
+                    <!-- Якщо користувач увійшов в систему -->
+                    <li class="nav-item me-3">
+                        <span class="text-light">Вітаю, <strong>{{ request.user.username }}</strong>!</span>
+                    </li>
+                    <li class="nav-item">
+                        <!-- Використовуємо форму для POST-запиту виходу (безпечний стандарт у Django) -->
+                        <form action="{% url 'logout' %}" method="post" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-outline-light btn-sm">Logout</button>
+                        </form>
+                    </li>
+                {% else %}
+                    <!-- Якщо користувач гість -->
+                    <li class="nav-item me-2">
+                        <a href="{% url 'login' %}" class="btn btn-outline-light btn-sm">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'register' %}" class="btn btn-primary btn-sm">Register</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
     </div>
+</nav>
   </div>
 </nav>
