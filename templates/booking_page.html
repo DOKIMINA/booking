@@ -16,7 +16,7 @@
         <div class="col-lg-8">
             <div class="card border-0 shadow-sm overflow-hidden mb-4">
                 {% if apart.image %}
-                    <img src="{{ apart.image.url }}" class="card-img-top" alt="{{ apart.name }}" style="height: 400px; object-fit: cover;">
+                    <img src="{{ apart.image.url }}" class="card-img-top" alt="{{ apart.name }}" style="height: 400px; object-image: cover;">
                 {% else %}
                     <img src="https://via.placeholder.com/800x400" class="card-img-top" alt="No image" style="height: 400px; object-fit: cover;">
                 {% endif %}
@@ -39,13 +39,20 @@
         <div class="col-lg-4">
             <div class="card border-0 shadow-sm p-4 rounded-4 sticky-top" style="top: 20px;">
                 <h3 class="fw-bold mb-3">Бронювання</h3>
-                
-                <!-- Якщо ви передаєте форму з Django (наприклад, BookingForm) -->
+                {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+                <!-- Форма бронювання -->
                 <form method="POST">
                     {% csrf_token %}
                     
-                    <!-- Рендеринг форми Django через Bootstrap (якщо є form) -->
                     {% if form %}
+                        <!-- Якщо ви передаєте готову форму з Django (наприклад, BookingForm) -->
                         {{ form.as_p }}
                     {% else %}
                         <!-- Стандартні поля, якщо форма створюється прямо у шаблоні -->
@@ -53,9 +60,30 @@
                             <label for="check_in" class="form-label fw-medium">Дата заїзду</label>
                             <input type="date" class="form-control" id="check_in" name="check_in" required>
                         </div>
+
                         <div class="mb-3">
                             <label for="check_out" class="form-label fw-medium">Дата виїзду</label>
                             <input type="date" class="form-control" id="check_out" name="check_out" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="full_name" class="form-label fw-medium">Ваше ім'я та прізвище</label>
+                            <input type="text" class="form-control" id="full_name" name="full_name" placeholder="Олександр Петренко" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="phone" class="form-label fw-medium">Номер телефону</label>
+                            <input type="tel" class="form-control" id="phone" name="phone" placeholder="+38 (063) 123-45-67" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="email" class="form-label fw-medium">Електронна пошта</label>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="example@gmail.com" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="comment" class="form-label fw-medium">Коментар до замовлення (необов'язково)</label>
+                            <textarea class="form-control" id="comment" name="comment" rows="3" placeholder="Бажаний час заїзду, додаткові побажання..."></textarea>
                         </div>
                     {% endif %}
 

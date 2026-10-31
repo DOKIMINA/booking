@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Бронювання успішно оформлено!{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card border-0 shadow-sm p-4 rounded-4 text-center">
+                
+                <!-- Іконка успіху -->
+                <div class="mb-4">
+                    <div class="inline-block p-3 bg-success bg-opacity-10 text-success rounded-circle" style="width: 80px; height: 80px; display: inline-flex; align-items: center; justify-content: center;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
+                            <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1.02-.022Z"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <h1 class="fw-bold mb-2">Бронювання прийнято!</h1>
+                <p class="text-muted mb-4">Дякуємо, що обрали нас. Ми зв'яжемося з вами найближчим часом для підтвердження деталей.</p>
+
+                <!-- Деталі бронювання (якщо ви передаєте об'єкт booking у контексті) -->
+                {% if booking %}
+                    <div class="bg-light p-3 rounded-3 text-start mb-4">
+                        <h6 class="fw-bold mb-3 text-dark border-bottom pb-2">Деталі замовлення:</h6>
+                        <ul class="list-unstyled mb-0 small text-secondary">
+                            <li class="mb-2"><strong>Апартаменти:</strong> <span class="text-dark">{{ booking.apartment.name }}</span></li>
+                            <li class="mb-2"><strong>Дата заїзду:</strong> <span class="text-dark">{{ booking.check_in }}</span></li>
+                            <li class="mb-2"><strong>Дата виїзду:</strong> <span class="text-dark">{{ booking.check_out }}</span></li>
+                            <li class="mb-2"><strong>Ім'я:</strong> <span class="text-dark">{{ booking.full_name }}</span></li>
+                            <li class="mb-0"><strong>Телефон:</strong> <span class="text-dark">{{ booking.phone }}</span></li>
+                        </ul>
+                    </div>
+                {% endif %}
+
+                <!-- Кнопки дій -->
+                <div class="d-grid gap-2">
+                    <a href="{% url 'home' %}" class="btn btn-primary btn-lg">Повернутися на головну</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
